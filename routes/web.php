@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\DemoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -10,3 +11,9 @@ Route::get('/', function () {
 
 Route::get('/servidor', [ServerController::class, 'index']);
 
+
+Route::post('/demo/abrir/{app}', [DemoController::class, 'abrir'])
+->whereIn('app', ['calculadora', 'bloc'])
+->middleware('throttle:2,1'); // cada PC puede abrir 2 programas por minuto
+
+Route::get('/graficos', fn () => view('graficos'));
