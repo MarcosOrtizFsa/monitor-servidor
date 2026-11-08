@@ -129,6 +129,7 @@
     <div class="acciones">
         <button class="btn" data-app="calculadora">Abrir calculadora</button>
         <button class="btn" data-app="bloc">Abrir Bloc de notas</button>
+        <button class="btn" data-app="paint">Abrir Paint</button>
     </div>
     @endif
     <h2>Actividad en vivo</h2>

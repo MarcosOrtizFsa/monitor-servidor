@@ -11,6 +11,7 @@ class DemoController extends Controller
     private const APPS = [
         'calculadora' => 'calc.exe',
         'bloc' => 'notepad.exe',
+        'paint' => 'mspaint.exe',
     ];
     public function abrir(Request $request, string $app)
     {
