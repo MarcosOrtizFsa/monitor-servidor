@@ -1,59 +1,24 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Monitor-Servidor : TP 1 y 2
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Este Trabajo Practico 1 y 2 de servivios del servidor y monitor muestra información del servidor, procesador, memoria, disco etc. Los datos se actualizan en tiempo real usando Laravel Reverb, sin tener que recargar la página. (En el TP1 con polling).
 
-## About Laravel
+1) Qué diferencia se ve en la pestaña Red entre el TP 1 (polling) y este TP?
+En el TP 1 se hacían pedidos al servidor todo el tiempo para consultar si había datos nuevos. (polling) en la pestaña Red aparecían muchas peticiones cada 5 segundos.
+En este TP2 se abre una conexión WebSocket y queda activa, en rirecto. Los datos llegan por esa misma conexión abierta cuando hay una actualización. 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+2) Qué pasa con la vista si se detiene reverb:start? Y si se detiene schedule:work?
+Si detengo reverb:start la vista sigue abierta. Pero deja de recibir las actualizaciones porque se corta la comunicación en tiempo real.
+Si detengo schedule:work Reverb puede seguir funcionando, pero no se generan nuevas lecturas de métricas del servidor. 
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+3) Por qué PowerShell se ejecuta la misma cantidad de veces con 1 o con 30 personas mirando?
+PowerShell no se ejecuta una vez por cada persona, toma una sola lectura cada cinco segundos y después manda ese mismo resultado a todos los navegadores conectados. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+4) Por qué DemoController usa una lista blanca en lugar de recibir el nombre del programa desde el navegador?
+Se usa una lista blanca por seguridad, se le indica al democontroller los programas que se pueden ejecutar.
 
-## Learning Laravel
+5) Qué diferencia hay entre ShouldBroadcast y ShouldBroadcastNow?
+ShouldBroadcast: deja el evento en una cola para que sea enviado después. Queda en cola.
+ShouldBroadcastNow: lo envía en el momento, sin hacer cola.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+6) Por qué la vista de gráficos no necesitó ningún cambio en el servidor? Qué ventaja tiene haber usado un componente?
+La vista de gráficos escucha el mismo canal y recibe el mismo evento. Las métricas son las mismas. El componente permite usar la misma estructura para visualizar memoria, disco y demás sin copiar todo el código varias veces. Solo cambio el título, el campo, el color y el tipo de gráfico.
